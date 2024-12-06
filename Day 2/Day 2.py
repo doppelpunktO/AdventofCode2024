@@ -1,44 +1,45 @@
 # Advent of Code 2024 Day 2 - Part 1 & 2
 
 # get input
-data = open("Day 2\input d2.txt", "r").readlines()
+data = open("input d2.txt", "r").readlines()
 
 def increasing(line):
-    dampener = 0
     for i in range(0, len(line)-1):
         # if it isn't increasing or two levels differ too much / not at all --> False
-        if line[i] > line[i+1-dampener] or line[i] < line [i+1-dampener] - 3 or line[i] == line [i+1-dampener]: # line[i] == line [i+1-dampener] wrong, but don't know how to fix
-            # added for P2
-            dampener += 1
-            line.pop(i)
-            if dampener > 1:
-                return False 
+        if line[i] >= line[i+1] or line[i] < line[i+1] - 3:
+            return False
     return True
 
 def decreasing(line):
-    dampener = 0
     for i in range(0, len(line)-1):
         # if it isn't decreasing or two levels differ too much / not at all --> False
-        if line[i] == line [i+1] and dampener == 0:
-            dampener += 1
-            line.pop(i)
-        
-        if line[i] < line[i+1-dampener] or line[i] > line [i+1-dampener] + 3 or line[i] == line [i+1-dampener]: # line[i] == line [i+1-dampener] wrong, but don't know how to fix
-            # added for P2
-            dampener += 1
-            line.pop(i)
-            if dampener > 1:
-                return False
-        
+        if line[i] <= line[i+1] or line[i] > line[i+1] + 3:
+            return False
     return True
+def safe(line):
+    return increasing(line) or decreasing(line)
+def safe_damper(line):
+    if safe(line):
+        return True
+    else:
+        for i in range(len(line)):
+            damp_line = line[:i] + line[i+1:]
+            if safe(damp_line):
+                return True
 
-count = 0
+    return False
+
+countp1 = 0
+countp2 = 0
 
 for line in data:
     line = line.split()
     line = [int(i) for i in line]
     # check if "safe"
-    if decreasing(line) or increasing(line):
-        count += 1
+    if safe(line):
+        countp1 += 1
+    if safe_damper(line):
+        countp2 += 1
 
-print(count)
+print("Part 1:", countp1)
+print("Part 2:", countp2)
