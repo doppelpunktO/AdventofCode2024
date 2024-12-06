@@ -1,4 +1,4 @@
-# Advent of Code 2021 Day 3 - Part 1 & 2
+# Advent of Code 2024 Day 3 - Part 1 & 2
 import re
 
 # Part 1:
