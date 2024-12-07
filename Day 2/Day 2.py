@@ -16,6 +16,7 @@ def decreasing(line):
         if line[i] <= line[i+1] or line[i] > line[i+1] + 3:
             return False
     return True
+
 def safe(line):
     return increasing(line) or decreasing(line)
 def safe_damper(line):
