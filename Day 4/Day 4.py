@@ -30,8 +30,26 @@ def findxmas(matrix):
 
     return result
 
-result = 0
+resultp1 = 0
 for i in range(4):
     matrix = np.rot90(matrix)
-    result += findxmas(matrix)
-print(result)
+    resultp1 += findxmas(matrix)
+print("Part 1:", resultp1)
+
+# Part 2
+regexp2 = r'M.M.A.S.S|M.S.A.M.S|S.M.A.S.M|S.S.A.M.M'
+# find if line == X-MAS
+resultp2 = 0
+
+for i in range(len(matrix[0])-2):
+    for n in range(len(matrix[1])-2):
+        line = ""
+        for c in range(3):
+            for d in range(3):
+                line += (matrix[i+c,n+d])
+        print(line)
+        if re.match(regexp2, line):
+            resultp2 += 1
+
+print("Part 2:", resultp2)
+
