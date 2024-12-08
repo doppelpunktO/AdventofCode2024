@@ -28,9 +28,37 @@ def checkupdate(update, rule):
         if u == rule[1]:
             return False
 
-total = 0
+def sortupdate(update, rules):
+
+    if all(checkupdate(update, rule) for rule in rules):
+        return update
+    for rule in rules:
+        if checkupdate(update, rule):
+            continue
+        else:
+            i = 0
+            for u in update:
+                if u == rule[0]:
+                    update[i] = rule[1]
+                    i += 1
+                    continue
+                if u == rule[1]:
+                    update[i] = rule[0]
+                    i += 1
+                    continue
+                i += 1
+    update = sortupdate(update, rules)
+    return update
+
+
+totalp1 = totalp2 = 0
 for update in updates:
     if all(checkupdate(update, rule) for rule in rules):
-        total += update[math.trunc(len(update) / 2)]
+        totalp1 += update[math.trunc(len(update)/2)]
+        continue
+    # Part 2
+    update = sortupdate(update, rules)
+    totalp2 += update[math.trunc(len(update)/2)]
 
-print("Part 1:", total)
+print("Part 1:", totalp1)
+print("Part 2:", totalp2)
